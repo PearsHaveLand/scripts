@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ $# != 1 ]; then
+	status=$(nmcli networking)
+	if [ $status = "enabled" ]; then
+		nmcli networking off
+	else
+		nmcli networking on
+	fi
+else
+	nmcli networking $1
+fi

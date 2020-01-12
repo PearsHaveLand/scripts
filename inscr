@@ -1,0 +1,15 @@
+#!/bin/sh
+
+CURR_DIR=$(pwd)
+SCRIPT_DIR="/usr/local/sbin"
+
+if [ $# != 1 ]; then
+	echo "Usage: inscr <script_name>"
+	echo "Note: you must be in the same directory as the target to be linked"
+	exit 1
+fi
+
+echo "chmod 755 $CURR_DIR/$1"
+chmod 755 $CURR_DIR/$1
+echo "ln -s $CURR_DIR/$1 $SCRIPT_DIR/$1"
+sudo ln -s $CURR_DIR/$1 $SCRIPT_DIR/$1

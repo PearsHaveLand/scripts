@@ -1,0 +1,57 @@
+#!/bin/sh
+if [ "$#" -ne 0 ]; then
+	echo "Usage: tth"
+	exit 1
+fi
+
+CURR_DIR=$(pwd)
+ST_DIR=/home/pears/programming/st
+OG_FILE="config.h"
+
+cd $ST_DIR
+
+diff_list=$(ls -1 | grep diff)
+count=$(echo -e "$diff_list" | wc -l)
+choice=$(echo -e "$diff_list" | dmenu -l $count -w $WINDOWID)
+
+patch $OG_FILE $choice
+make uninstall
+make install
+
+cd $CURR_DIR
+
+
+##################################
+# FOR TERMITE
+##################################
+#
+#T_PATH="$HOME/.config/termite"
+#C_FILE="$T_PATH/config"
+#F_ARR=($(ls $T_PATH))
+#choices=()
+#count=0
+#input=-1
+#input_str=''
+#
+#
+## Remove config from the list of options
+#for target in ${F_ARR[@]}; do
+#	if [ $target != "config" ] || [ $target != " " ]; then
+#		choices_str="$choices_str$target"
+#	fi
+#	if [ $target != ${F_ARR[-1]} ]; then
+#		choices_str="$choices_str\n"
+#	fi
+#done;
+#
+#input_str=$(echo -e $choices_str | dmenu)
+#
+#if [ ! $input_str ]; then
+#	echo "termetheme: error none selected"
+#	exit 1
+#fi
+#
+#input_str="$T_PATH/$input_str"
+#
+#echo "cp $input_str $C_FILE"
+#cp $input_str $C_FILE

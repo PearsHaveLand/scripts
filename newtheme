@@ -1,0 +1,30 @@
+#!/bin/sh
+# --------------------------------
+# Copies current theme to new file
+# Opens new file in Vim
+# -------------------------------
+
+if [ "$#" -ne 1 ]; then
+	echo "Usage: nth <name-of-new-theme>"
+	exit 1
+fi
+
+###################################
+# FOR ST 
+###################################
+
+ST_PATH=/home/pears/programming/st
+TEMPLATE="$ST_PATH/template.diff"
+
+cp $TEMPLATE $ST_PATH/$1
+vim $ST_PATH/$1
+
+###################################
+# FOR TERMITE
+###################################
+
+#THEMES_PATH="$HOME/.config/termite"
+#NEW_THEME_PATH="$THEMES_PATH/$1"
+#
+#cp "$THEMES_PATH/config" $NEW_THEME_PATH
+#vim $NEW_THEME_PATH
