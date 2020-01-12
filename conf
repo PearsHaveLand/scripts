@@ -1,33 +1,27 @@
 #!/bin/sh
 
-C_FILE="$T_PATH/config"
 F_ARR=($(ls $T_PATH))
-input=-1
 input_str=''
 choices_str='i3\nnewsboat\npicom\vim\zsh'
+ZSH_PATH="$HOME/.zshrc"
+VIM_PATH="$HOME/.vimrc"
+chosen_path=''
 
 if [ "$#" -ne 0 ]; then
 	input_str=$1
 fi
 
-case
-
+case $input_str in
+	zsh) chosen_path=$ZSH_PATH
+	;;
+	vim) chosen_path=$VIM_PATH
+	;;
+	*) chosen_path=''
 esac
 
-# Remove config from the list of options
-for target in ${F_ARR[@]}; do
-	if [ $target != "config" ] || [ $target != " " ]; then
-		choices_str="$choices_str$target"
-	fi
-	if [ $target != ${F_ARR[-1]} ]; then
-		choices_str="$choices_str\n"
-	fi
-done;
-
-input_str=$(echo -e $choices_str | dmenu)
-
-if [ ! $input_str ]; then
+if [ ! $chosen_path ]; then
+	echo "Unable to find $input_str configuration file"
 	exit 1
 fi
 
-vim $T_PATH/$input_str
+vim $chosen_path 
