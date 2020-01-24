@@ -1,0 +1,24 @@
+#!/bin/sh
+# Given a valid overthewire password file, prints the requested password to stdout
+# Valid bandit password files are comma-separated, with the level number
+# in column 1, and the corresponding pasword in column 2
+# Example:
+# 0,bandit0
+# 1,password1
+# 2,password2
+# ...
+# n,sdafjhsdfkjah
+
+pass_path="/home/pears/overthewire/pass.csv"
+
+if [[ $# != 1 ]]; then
+	echo "Usage: getpass <level_number>"
+else
+	case $1 in
+		'-l') cat "$pass_path"
+			;;
+		*) sed -n "s/^$1,\(.*\)$/\1/p" "$pass_path"
+			;;
+	esac
+fi
+
