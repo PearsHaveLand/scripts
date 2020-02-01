@@ -4,10 +4,14 @@
 if [ $# -ne 1 ] ; then
 	echo "Usage: bandit <level_number>"
 else
-	case $1 in
+	case "$1" in
+		'17') echo -e "This is the weird one. You need a command like: \n\tssh bandit17@bandit.labs.overthewire.org -p 2220 -i bandit17.txt"
+			;;
 		'-l') getpass -l
-		;;
+			;;	
 		*) pass=$(getpass $1)
+		echo $pass
+		echo "sshpass -p$pass ssh -o StrictHostKeyChecking=no bandit$1@bandit.labs.overthewire.org -p 2220"
 		sshpass -p$pass ssh -o StrictHostKeyChecking=no bandit$1@bandit.labs.overthewire.org -p 2220
 		;;
 	esac
