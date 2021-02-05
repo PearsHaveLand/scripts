@@ -2,14 +2,40 @@
 
 CURR_DIR=$(pwd)
 SCRIPT_DIR="/usr/local/sbin"
+BIN_DIR="/usr/local/bin"
+INSTALL_DIR=""
+MAX_ARGS=2
+FILE_STR=""
 
-if [ $# != 1 ]; then
-	echo "Usage: inscr <script_name>"
-	echo "Note: you must be in the same directory as the target to be linked"
-	exit 1
-fi
+[ $# -gt $MAX_ARGS ] && echo "too many arguments" && exit 1
 
-echo "chmod 755 $CURR_DIR/$1"
-chmod 755 $CURR_DIR/$1
-echo "ln -s $CURR_DIR/$1 $SCRIPT_DIR/$1"
-sudo ln -s $CURR_DIR/$1 $SCRIPT_DIR/$1
+
+while :; do
+	case $1 in
+		-h|-\?|--help)	# Call a showHelp function, then exit
+			echo show_help
+			exit
+			;;
+		-s|--script)	# Installs the file in the SCRIPT_DIR
+			INSTALL_DIR=$SCRIPT_DIR
+			;;
+		-b|--binary)	# Installs the file in the BIN_DIR
+			INSTALL_DIR=$BIN_DIR
+			;;
+		?*)		# The filename of the item
+			FILE_STR=$1
+			;;
+		*)
+			break
+			;;
+	esac
+
+	shift
+
+done
+
+[ -f "$FILE_STR" ] || { echo "ERROR: file \"$FILE_STR\" not found" ; exit 1; }
+
+echo "sudo install $CURR_DIR/$FILE_STR $INSTALL_DIR"
+
+sudo install $CURR_DIR/$FILE_STR $INSTALL_DIR
